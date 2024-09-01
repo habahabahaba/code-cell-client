@@ -1,0 +1,54 @@
+{
+  "name": "@code-cell/local-client",
+  "version": "0.5.0",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.html",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.24.8",
+    "@babel/traverse": "^7.24.8",
+    "@babel/types": "^7.24.9",
+    "@monaco-editor/react": "^4.6.0",
+    "@reduxjs/toolkit": "^2.2.6",
+    "@types/babel__traverse": "^7.20.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-resizable": "^3.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
+    "@uiw/react-md-editor": "^4.0.4",
+    "@vitejs/plugin-react-swc": "^3.7.0",
+    "bulmaswatch": "^0.8.1",
+    "esbuild-wasm": "^0.23.0",
+    "eslint": "^9.7.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "localforage": "^1.10.0",
+    "monaco-editor": "^0.50.0",
+    "monaco-jsx-highlighter": "^2.77.77",
+    "prettier": "^3.3.3",
+    "re-resizable": "^6.9.17",
+    "react-icons": "^5.2.1",
+    "react-redux": "^9.1.2",
+    "traverse": "link:@types/@babel/traverse",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.4",
+    "vite-plugin-node-polyfills": "^0.22.0"
+  }
+}

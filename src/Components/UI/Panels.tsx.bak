@@ -1,0 +1,100 @@
+// React:
+import { Fragment, Children, useId } from 'react';
+
+// React-resizable-panels:
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+
+// Components:
+import HandleIcons from './HandleIcons';
+
+// CSS:
+import styles from './Panels.module.css';
+
+// Types, interfaces and enumns:
+import { CSSProperties, FC, ReactNode } from 'react';
+interface PanelHandleProps {
+  direction: 'horizontal' | 'vertical';
+  className?: string;
+  id?: string;
+}
+interface PanelsProps {
+  direction: 'horizontal' | 'vertical';
+  children?: ReactNode;
+  layout?: number[];
+  className?: string;
+  style?: CSSProperties;
+}
+
+// Handle for panels Component:
+const PanelHandle: FC<PanelHandleProps> = ({
+  direction,
+  className = '',
+  id,
+}) => {
+  // JSX:
+  return (
+    <PanelResizeHandle
+      className={[styles.ResizeHandleOuter, className].join(' ')}
+      id={id}
+    >
+      <div className={styles.ResizeHandleInner}>
+        <HandleIcons
+          direction={direction}
+          icon='twoArrows'
+          className={styles.Icon}
+        />
+      </div>
+    </PanelResizeHandle>
+  );
+};
+
+//  Panels Component:
+const Panels: FC<PanelsProps> = ({
+  direction,
+  children,
+  layout,
+  className,
+  style,
+}) => {
+  const nodes = Children.toArray(children);
+
+  // JSX:
+  const panels = nodes.map((node, idx) => {
+    const panel = (
+      <Panel
+        className={styles.Panel}
+        collapsible={false}
+        order={idx}
+        minSize={25}
+        maxSize={75}
+        defaultSize={
+          layout && layout.length >= nodes.length ? layout[idx] : undefined
+        }
+      >
+        <div style={{ overflow: 'auto', height: '100%' }}>{node}</div>
+      </Panel>
+    );
+
+    return idx < nodes.length - 1 ? (
+      <Fragment key={'tab#' + idx}>
+        {panel}
+        <PanelHandle direction={direction} />
+      </Fragment>
+    ) : (
+      <Fragment key={'tab#' + idx}>{panel}</Fragment>
+    );
+  });
+
+  return (
+    <PanelGroup
+      autoSaveId={`Panels-${useId()}`}
+      direction={direction}
+      className={className}
+      style={style}
+    >
+      {panels}
+    </PanelGroup>
+  );
+};
+
+export default Panels;

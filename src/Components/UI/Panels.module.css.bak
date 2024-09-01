@@ -1,0 +1,76 @@
+.Container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.TopRow {
+  flex: 0 0 auto;
+  text-align: center;
+}
+.BottomRow {
+  flex: 1 1 auto;
+}
+
+.Panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.PanelContent {
+  height: 100%;
+  width: 100%;
+  /* background-color: var(--color-panel-background); */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.ResizeHandleOuter {
+  flex: 0 0 15px;
+  position: relative;
+  outline: none;
+
+  /* --background-color: transparent; */
+
+  overflow: hidden;
+  border: solid 1px color-mix(in srgb, currentColor 50%, transparent);
+  opacity: 0.6;
+  transition: opacity 0.3;
+}
+.ResizeHandleOuter[data-resize-handle-active] {
+  /* --background-color: var(--color-solid-resize-bar-handle); */
+  opacity: 1;
+}
+.ResizeHandleOuter:hover {
+  /* --background-color: var(--color-solid-resize-bar-handle); */
+  opacity: 0.8;
+}
+
+.ResizeHandleInner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* border-radius: 0.25em; */
+  /* background-color: var(--background-color); */
+  transition: background-color 0.2s linear;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.Icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  position: absolute;
+  /* left: calc(50% - 0.5rem); */
+  /* top: calc(50% - 0.5rem); */
+}

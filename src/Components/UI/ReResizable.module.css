@@ -1,0 +1,30 @@
+.re_resize_handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: solid 1px color-mix(in srgb, currentColor 50%, transparent);
+  opacity: 0.6;
+  transition: opacity 0.25s;
+  position: absolute;
+  background-color: #282f2f;
+}
+.re_resize_handle:hover {
+  opacity: 0.8;
+}
+.re_resize_handle:active {
+  opacity: 1;
+}
+.re_resize_handle_down {
+  width: 100%;
+  min-height: 10px;
+}
+
+.re_resize_handle_right {
+  min-width: 10px;
+  height: 100%;
+}
+
+:global(.handle_icon) {
+  position: absolute;
+}

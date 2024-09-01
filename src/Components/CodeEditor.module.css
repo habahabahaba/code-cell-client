@@ -1,0 +1,93 @@
+/* Container: */
+.editor_container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* margin: 0 1px; */
+}
+
+.editor_dark {
+  height: 100%;
+}
+
+/* Format button: */
+.editor_container .button_format {
+  position: absolute;
+  top: 0.3rem;
+  right: 1.25rem;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show button, when hovering over the editor: */
+.editor_container:hover .button_format {
+  opacity: 1;
+}
+/* Show button, when cursor is active inside the editor: */
+.editor_container:focus-within .button_format {
+  opacity: 1;
+}
+
+/* JSX syntax highlighting: */
+.editor_dark :global(.JSXElement.JSXIdentifier) {
+  color: #5fabe8;
+}
+
+.editor_dark :global(.JSXElement.JSXBracket) {
+  color: #808080;
+}
+
+.editor_dark :global(.JSXElement.JSXText) {
+  color: #d4d4d4;
+}
+
+.editor_dark :global(.JSXElement.JSXGlyph) {
+  background: cyan;
+  opacity: 0.25;
+}
+
+.editor_dark :global(.JSXOpeningFragment.JSXBracket) {
+  color: #ff00dd;
+  font-weight: bold;
+}
+
+.editor_dark :global(.JSXClosingFragment.JSXBracket) {
+  color: #ff00dd;
+  font-weight: bold;
+}
+
+.editor_dark :global(.JSXOpeningElement.JSXBracket) {
+  color: #808080;
+  font-weight: bold;
+}
+
+.editor_dark :global(.JSXOpeningElement.JSXIdentifier) {
+  color: #569cd6;
+}
+
+.editor_dark :global(.JSXClosingElement.JSXBracket) {
+  color: #808080;
+  font-weight: lighter;
+}
+
+.editor_dark :global(.JSXClosingElement.JSXIdentifier) {
+  color: #569cd6;
+  font-weight: lighter;
+}
+
+.editor_dark :global(.JSXAttribute.JSXIdentifier) {
+  color: #9ddcfd;
+}
+
+.editor_dark :global(.JSXExpressionContainer.JSXBracket) {
+  color: #0080ff;
+}
+
+.editor_dark :global(.JSXSpreadChild.JSXBracket) {
+  color: #0080ff;
+}
+
+.editor_dark :global(.JSXSpreadAttribute.JSXBracket) {
+  color: #0080ff;
+}

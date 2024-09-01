@@ -1,0 +1,42 @@
+.iframe_container {
+  position: relative;
+  height: 100%;
+  flex-shrink: 125;
+  flex-grow: 1;
+  /* so it wouldn't overlap with cell-item border: */
+  margin: 1px 2px 1px 1px;
+  padding-bottom: 2px;
+}
+.iframe_container iframe {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  color: black;
+}
+
+/* For smooth resizing: */
+:global(.react-draggable-transparent-selection) .iframe_container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: transparent;
+}
+
+/* For displaying syntax ERRORS: */
+.preview_error {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: calc(100% - 12px);
+  width: calc(100% - 10px);
+  color: #dd0000;
+  background-color: white;
+  font-size: 1.4rem;
+  white-space: pre-wrap;
+  overflow: scroll;
+  /* z-index: 10; */
+}

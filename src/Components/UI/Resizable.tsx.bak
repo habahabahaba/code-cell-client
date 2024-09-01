@@ -1,0 +1,122 @@
+// React:
+import { useEffect, useState } from 'react';
+
+// React-resizable:
+import { ResizableBox } from 'react-resizable';
+
+// Components:
+// import HandleIconArrows from './HandleIconArrows';
+import HandleIcons from './HandleIcons';
+
+// CSS:
+import styles from './Resizable.module.css';
+
+// Types, interfaces and enumns:
+import { FC, ReactNode, CSSProperties } from 'react';
+import { ResizableBoxProps } from 'react-resizable';
+interface ResizableProps {
+  direction: 'horizontal' | 'vertical';
+  children: ReactNode;
+  className?: string;
+}
+
+// Resizable Component:
+const Resizable: FC<ResizableProps> = ({ children, direction, className }) => {
+  // Updating window size:
+  const [innerWidth, setInnerWidth] = useState<number>(window.innerWidth);
+  const [innerHeight, setInnerHeight] = useState<number>(window.innerHeight);
+
+  // Persisting horizontal width:
+  const [width, setWidth] = useState<number>(innerWidth * 0.75 - 10); // Persist absolute width
+
+  useEffect(() => {
+    let timer: number; // for debouncing
+    function setWindowSize() {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+        setInnerWidth(window.innerWidth);
+        setInnerHeight(window.innerHeight);
+
+        // Persist absolute width:
+        if (width > innerWidth * 0.75 - 10) {
+          setWidth(window.innerWidth * 0.75 - 10);
+        }
+      }, 25);
+    }
+    window.addEventListener('resize', setWindowSize);
+    return () => {
+      window.removeEventListener('resize', setWindowSize);
+    };
+  }, [width, innerWidth]);
+
+  // JSX:
+  // Handle:
+  const handleStyles = [
+    styles.react_resizable_handle,
+    direction === 'horizontal'
+      ? styles.react_resizable_handle_e
+      : styles.react_resizable_handle_s,
+  ].join(' ');
+
+  const handle = (
+    <span className={handleStyles}>
+      <HandleIcons direction={direction} icon='eightCircles' />
+    </span>
+  );
+
+  // Conditional props:
+  const resizableProps: ResizableBoxProps =
+    direction === 'vertical'
+      ? {
+          axis: 'y',
+          height: 300,
+          width: Infinity,
+          handle,
+          minConstraints: [Infinity, 75],
+          maxConstraints: [Infinity, innerHeight * 0.9],
+          className,
+          children,
+          style: { marginBottom: '15px' },
+        }
+      : {
+          axis: 'x',
+          height: Infinity,
+          width, // persist absolute width
+          handle,
+          minConstraints: [innerWidth * 0.2, Infinity],
+          maxConstraints: [innerWidth * 0.75 - 10, Infinity],
+          className,
+          children,
+          style: {
+            display: 'flex',
+          },
+
+          onResizeStop: (_, data) => {
+            // Persist absolute width:
+            setWidth(data.size.width);
+          },
+        };
+
+  const wrapper = (
+    node: ReactNode,
+    direction: 'vertical' | 'horizontal'
+  ): ReactNode => {
+    const style: CSSProperties = {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      height: '100%',
+      width: `${direction === 'vertical' ? 'unset' : 'calc(100% - 15px)'}`,
+    };
+
+    return <div style={style}>{node}</div>;
+  };
+  return (
+    <ResizableBox {...resizableProps}>
+      {wrapper(children, direction)}
+    </ResizableBox>
+  );
+};
+
+export default Resizable;

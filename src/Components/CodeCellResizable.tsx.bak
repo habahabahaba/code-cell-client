@@ -1,0 +1,101 @@
+// React:
+import { useState, useEffect } from 'react';
+
+// Components:
+import CodeEditor from './CodeEditor';
+import Preview from './CodePreview';
+import Resizable from './UI/Resizable';
+
+// Bundler:
+import Bundler from '../dependencies/Bundler';
+
+// CSS:
+
+// Types, interfaces and enumns:
+import {
+  FC,
+  //   FormEventHandler,
+  // ChangeEventHandler,
+  // ChangeEvent,
+  //   FormEvent,
+} from 'react';
+
+// Component:
+const CodeCellResizable: FC = () => {
+  const [input, setInput] = useState<string>('');
+  const [code, setCode] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  // User code preview:
+  useEffect(() => {
+    const timer: number = setTimeout(async () => {
+      console.log('Before Bundler: ', input);
+
+      // Bundling the output code:
+      const output = await Bundler.build(input);
+
+      // console.log('From Bundler: ', output);
+
+      setCode(output.code);
+      if (output.error) {
+        const syntaxError = `Syntax error:\n\n ${output.error}`;
+        setError(syntaxError);
+      }
+    }, 600);
+
+    return () => {
+      clearTimeout(timer);
+      setError('');
+    };
+  }, [input]);
+
+  // Handlers:
+  function reportEditorChange(value: string | undefined): void {
+    // console.log(`CodeCell: value from editor:
+    // ${value}
+    // `);
+    // console.log(`Editor event:
+    // ${JSON.stringify(ev)}
+    // `);
+
+    if (!value) value = '';
+    setInput(value);
+  }
+  function reportError(error: Error): void {
+    const formatterError = `Formatter error:\n\n${error.message}
+    `;
+    setError(formatterError);
+  }
+
+  //   Initial input code value for the CodeEditor:
+  const jsxValue = `
+  import ReactDOM from 'react-dom/client';
+  import React from 'react';
+  const App = () => {
+    return(
+      <div
+        style={{ color: 'red' }}
+      >
+        <h1>Proof of Resizable Life ...</h1>
+      </div>
+    )
+  }
+  
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);`;
+
+  // JSX:
+  return (
+    <Resizable direction='vertical'>
+      <Resizable direction='horizontal'>
+        <CodeEditor
+          initialValue={jsxValue}
+          reportChange={reportEditorChange}
+          reportError={reportError}
+        />
+      </Resizable>
+      <Preview code={code} error={error} />
+    </Resizable>
+  );
+};
+
+export default CodeCellResizable;
